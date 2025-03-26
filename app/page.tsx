@@ -1,6 +1,17 @@
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 export default function Home() {
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
@@ -49,6 +60,10 @@ export default function Home() {
           >
             Read our docs
           </a>
+        </div>
+        <div className="text-center mt-4">
+          <p className="text-lg font-semibold">Current Date and Time:</p>
+          <p>{currentTime.toLocaleString()}</p>
         </div>
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
