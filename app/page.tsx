@@ -2,12 +2,9 @@
 
 import { useState, useEffect } from "react";
 
-const API_KEY = "AIzaSyDiq9W2_94vbR63rLEZDtID9BCvSyY9FaI"; 
-const CX = "756729135966"; 
 export default function Home() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -17,14 +14,11 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
 
-  const handleSearch = async () => {
+  const handleSearch = () => {
     if (query.trim() === "") return;
 
-    const response = await fetch(
-      `https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CX}&q=${query}`
-    );
-    const data = await response.json();
-    setResults(data.items || []);
+    const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+    window.open(googleSearchUrl, "_blank");
   };
 
   return (
@@ -44,16 +38,6 @@ export default function Home() {
         <button onClick={handleSearch} className="p-2 bg-blue-500 text-white rounded">
           Search
         </button>
-        <div className="mt-4">
-          {results.map((result, index) => (
-            <div key={index} className="mb-4">
-              <a href={result.link} className="text-blue-500">
-                {result.title}
-              </a>
-              <p>{result.snippet}</p>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );
